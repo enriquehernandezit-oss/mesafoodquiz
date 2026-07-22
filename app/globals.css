@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-mesa-maroon: #1e0000;
+  --color-mesa-maroon-deep: #280000;
+  --color-mesa-cream: #d2beaa;
+  --color-mesa-cream-light: #fcf8f1;
+  --color-mesa-gold: #c09050;
+  --color-mesa-rust: #b25a34;
+
+  --font-sans: var(--font-jakarta);
+  --font-serif: var(--font-cormorant);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-mesa-maroon);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

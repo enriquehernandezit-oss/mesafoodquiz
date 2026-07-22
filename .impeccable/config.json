@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "plus jakarta sans",
+        "reason": "Locked Mesa brand typography from the client's build brief: Cormorant Garamond for personality copy, Plus Jakarta Sans for functional/UI text. Not a default AI choice.",
+        "createdAt": "2026-07-22T06:56:05.643Z"
+      }
+    ]
+  }
+}
