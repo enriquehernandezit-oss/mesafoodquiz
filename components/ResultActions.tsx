@@ -15,6 +15,12 @@ import {
 
 type WaitlistState = "idle" | "submitting" | "done" | "error";
 
+const primaryButtonClass =
+  "rounded px-0 py-[19px] text-center font-sans text-xs font-extrabold uppercase tracking-[.16em] text-mesa-maroon transition-transform duration-[180ms] ease-out hover:-translate-y-0.5 active:scale-[0.98]";
+
+const outlineButtonClass =
+  "flex-1 rounded border border-mesa-cream/30 bg-transparent px-0 py-[15px] text-center font-sans text-[11px] font-bold uppercase tracking-[.14em] transition-colors duration-150 ease-out";
+
 export function ResultActions({ slug }: { slug: ArchetypeSlug }) {
   const searchParams = useSearchParams();
   const own = parseSessionRef(searchParams.get("own"));
@@ -110,32 +116,44 @@ export function ResultActions({ slug }: { slug: ArchetypeSlug }) {
 
   if (own) {
     return (
-      <div className="mx-auto flex w-full max-w-sm flex-col gap-4 px-6 pb-16 pt-8">
-        <button
-          type="button"
-          onClick={handleShareStories}
-          data-pulse={escaped === "stories" ? "true" : undefined}
-          className="rounded-full bg-mesa-gold px-6 py-4 text-center font-sans text-sm font-bold uppercase tracking-[0.15em] text-mesa-maroon transition-transform duration-150 ease-out active:scale-[0.98] data-[pulse=true]:animate-pulse"
-        >
-          Compartir en Stories
-        </button>
-        <button
-          type="button"
-          onClick={handleShareGroup}
-          data-pulse={escaped === "group" ? "true" : undefined}
-          className="rounded-full border border-mesa-cream/40 px-6 py-4 text-center font-sans text-sm font-bold uppercase tracking-[0.15em] text-mesa-cream transition-transform duration-150 ease-out active:scale-[0.98] data-[pulse=true]:animate-pulse"
-        >
-          Enviar al grupo
-        </button>
+      <div className="bg-mesa-maroon-deep px-6 pb-10">
+        <div className="mt-6 flex flex-col gap-2.5">
+          <button
+            type="button"
+            onClick={handleShareStories}
+            data-pulse={escaped === "stories" ? "true" : undefined}
+            className={`${primaryButtonClass} bg-mesa-cream data-[pulse=true]:animate-pulse`}
+          >
+            Compartir en Stories
+          </button>
+          <div className="flex gap-2.5">
+            <button
+              type="button"
+              onClick={handleShareGroup}
+              data-pulse={escaped === "group" ? "true" : undefined}
+              className={`${outlineButtonClass} text-mesa-cream hover:border-mesa-cream data-[pulse=true]:animate-pulse`}
+            >
+              Al grupo
+            </button>
+            <Link
+              href="/"
+              className={`${outlineButtonClass} text-mesa-cream/70 hover:border-mesa-cream hover:text-mesa-cream`}
+            >
+              Repetir
+            </Link>
+          </div>
+        </div>
 
         {shareFallback === "no-share-api" && <ShareFallback slug={slug} cardBlob={cardBlob} />}
 
-        <WaitlistPrompt
-          state={waitlist}
-          email={email}
-          onEmailChange={setEmail}
-          onSubmit={handleWaitlistSubmit}
-        />
+        <div className="mt-7 border-t border-mesa-cream/14 pt-[22px]">
+          <WaitlistPrompt
+            state={waitlist}
+            email={email}
+            onEmailChange={setEmail}
+            onSubmit={handleWaitlistSubmit}
+          />
+        </div>
       </div>
     );
   }
@@ -143,11 +161,8 @@ export function ResultActions({ slug }: { slug: ArchetypeSlug }) {
   const ctaHref = ref ? `/?ref=${ref}&s=${inboundSource ?? "wa"}` : "/";
 
   return (
-    <div className="mx-auto flex w-full max-w-sm flex-col gap-4 px-6 pb-16 pt-8">
-      <Link
-        href={ctaHref}
-        className="rounded-full bg-mesa-gold px-6 py-4 text-center font-sans text-sm font-bold uppercase tracking-[0.15em] text-mesa-maroon transition-transform duration-150 ease-out active:scale-[0.98]"
-      >
+    <div className="bg-mesa-maroon-deep px-6 pb-10">
+      <Link href={ctaHref} className={`${primaryButtonClass} mt-6 block bg-mesa-cream`}>
         ¿Y tú? Haz el quiz
       </Link>
     </div>
@@ -171,7 +186,7 @@ function ShareFallback({ slug, cardBlob }: { slug: ArchetypeSlug; cardBlob: Blob
 
   if (platform === "ios") {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-2xl border border-mesa-cream/20 bg-mesa-maroon-deep/50 p-4 text-center">
+      <div className="mt-4 flex flex-col items-center gap-3 rounded border border-mesa-cream/20 bg-mesa-maroon/50 p-4 text-center">
         <p className="font-sans text-xs text-mesa-cream/70">
           Mantén presionada la imagen de arriba y elige &ldquo;Guardar en Fotos&rdquo;, luego
           ábrela en Instagram.
@@ -187,7 +202,7 @@ function ShareFallback({ slug, cardBlob }: { slug: ArchetypeSlug; cardBlob: Blob
   }
 
   return (
-    <div className="flex flex-col items-center gap-3 rounded-2xl border border-mesa-cream/20 bg-mesa-maroon-deep/50 p-4 text-center">
+    <div className="mt-4 flex flex-col items-center gap-3 rounded border border-mesa-cream/20 bg-mesa-maroon/50 p-4 text-center">
       <a
         href={downloadUrl}
         download={`${slug}.png`}
@@ -215,15 +230,15 @@ function WaitlistPrompt({
 }) {
   if (state === "done") {
     return (
-      <p className="pt-2 text-center font-sans text-xs text-mesa-cream/60">
+      <p className="m-0 font-sans text-[12.5px] leading-[1.6] text-mesa-cream/55">
         Listo, te avisamos primero 👀
       </p>
     );
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-2 pt-4">
-      <p className="text-center font-sans text-xs text-mesa-cream/60">
+    <form onSubmit={onSubmit}>
+      <p className="m-0 mb-3 text-pretty font-sans text-[12.5px] leading-[1.6] text-mesa-cream/55">
         Algo se está cocinando en Santo Domingo — deja tu correo y entérate primero.
       </p>
       <div className="flex gap-2">
@@ -233,20 +248,18 @@ function WaitlistPrompt({
           value={email}
           onChange={(e) => onEmailChange(e.target.value)}
           placeholder="tu@correo.com"
-          className="min-w-0 flex-1 rounded-full border border-mesa-cream/25 bg-transparent px-4 py-2 font-sans text-sm text-mesa-cream placeholder:text-mesa-cream/40 focus:border-mesa-gold/60 focus:outline-none"
+          className="min-w-0 flex-1 border-0 border-b border-mesa-cream/30 bg-transparent px-0.5 py-[11px] font-sans text-[13px] text-mesa-cream outline-none focus:border-mesa-gold"
         />
         <button
           type="submit"
           disabled={state === "submitting"}
-          className="rounded-full border border-mesa-cream/25 px-4 py-2 font-sans text-sm font-semibold text-mesa-cream transition-colors duration-150 ease-out disabled:opacity-50"
+          className="rounded bg-mesa-gold px-[18px] py-[11px] font-sans text-[11.5px] font-bold uppercase tracking-[.1em] text-mesa-maroon transition-colors duration-150 ease-out hover:bg-mesa-gold-hover disabled:opacity-50"
         >
           {state === "submitting" ? "..." : "Avisarme"}
         </button>
       </div>
       {state === "error" && (
-        <p className="text-center font-sans text-xs text-mesa-rust">
-          Algo falló, intenta de nuevo.
-        </p>
+        <p className="mt-2 font-sans text-xs text-mesa-gold">Algo falló, intenta de nuevo.</p>
       )}
     </form>
   );

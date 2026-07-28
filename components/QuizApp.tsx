@@ -15,15 +15,21 @@ import {
 import { AudioController, type AudioControllerHandle } from "./AudioController";
 import { TitleScreen } from "./TitleScreen";
 import { QuestionScreen } from "./QuestionScreen";
-import { ProgressDots } from "./ProgressDots";
 
-export function QuizApp() {
+export function QuizApp({
+  titlePhoto,
+  questionPhotos,
+}: {
+  titlePhoto: string | null;
+  questionPhotos: (string | null)[];
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [phase, setPhase] = useState<"title" | "question">("title");
   const [questionIndex, setQuestionIndex] = useState(0);
   const [optionIndexes, setOptionIndexes] = useState<number[]>([]);
+  const [muted, setMuted] = useState(true);
 
   const audioRef = useRef<AudioControllerHandle | null>(null);
   const eventBufferRef = useRef(createEventBuffer());
@@ -76,6 +82,7 @@ export function QuizApp() {
 
   function handleBegin() {
     beginTimeRef.current = Date.now();
+    setMuted(false);
     audioRef.current?.unlock();
     eventBufferRef.current.push("quiz_started");
     setPhase("question");
@@ -115,21 +122,22 @@ export function QuizApp() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <AudioController ref={audioRef} />
+      <AudioController ref={audioRef} muted={muted} />
 
-      {phase === "title" && <TitleScreen onBegin={handleBegin} />}
+      {phase === "title" && <TitleScreen onBegin={handleBegin} photo={titlePhoto} />}
 
       {phase === "question" && currentQuestion && (
-        <div className="flex flex-1 flex-col">
-          <div className="px-6 pt-8">
-            <ProgressDots total={QUIZ.length} current={questionIndex} />
-          </div>
-          <QuestionScreen
-            prompt={currentQuestion.prompt}
-            options={currentQuestion.options}
-            onAnswer={handleAnswer}
-          />
-        </div>
+        <QuestionScreen
+          key={questionIndex}
+          photo={questionPhotos[questionIndex] ?? null}
+          questionNumber={questionIndex + 1}
+          totalQuestions={QUIZ.length}
+          prompt={currentQuestion.prompt}
+          options={currentQuestion.options}
+          onAnswer={handleAnswer}
+          muted={muted}
+          onToggleMute={() => setMuted((m) => !m)}
+        />
       )}
     </div>
   );

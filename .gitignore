@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# design handoff reference — contains unlicensed placeholder photography
+# (README.md itself flags this); kept locally for spec reference, never committed
+/design_handoff_mesa_quiz/

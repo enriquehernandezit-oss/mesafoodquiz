@@ -16,6 +16,10 @@ export function resolveOgImagePath(slug: string): string | null {
   if (publicFileExists(ogRel)) return `/${ogRel}`;
   const cardRel = `cards/${slug}.png`;
   if (publicFileExists(cardRel)) return `/${cardRel}`;
+  for (const ext of ["jpg", "jpeg", "png", "webp"]) {
+    const photoRel = `photos/${slug}.${ext}`;
+    if (publicFileExists(photoRel)) return `/${photoRel}`;
+  }
   const defaultRel = `og/default.png`;
   if (publicFileExists(defaultRel)) return `/${defaultRel}`;
   return null;

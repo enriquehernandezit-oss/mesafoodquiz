@@ -20,6 +20,8 @@ export interface QuizOption {
 export interface QuizQuestion {
   id: string;
   prompt: string;
+  // Mood photo name, resolved against /public/mood/{photo}.jpg — see lib/photos.ts.
+  photo: string;
   options: QuizOption[];
 }
 
@@ -27,8 +29,9 @@ export interface QuizQuestion {
 // new results stay distinguishable in the results table.
 export const QUIZ_VERSION = 1;
 
-// DRAFT COPY — placeholder wording built to exercise the full flow today.
-// Final question/option wording is still pending; swap it in here once locked.
+// Final copy, verbatim per the design handoff (design_handoff_mesa_quiz/README.md)
+// — do not correct spelling, accents, punctuation, or the Spanish/English
+// code-switching.
 export const ARCHETYPES: ArchetypePersona[] = [
   {
     slug: "story-spammer",
@@ -56,16 +59,14 @@ export const ARCHETYPES: ArchetypePersona[] = [
   {
     slug: "sweet-tooth-ceo",
     name: "Sweet Tooth CEO",
-    quote:
-      "La amiga: \"Señore, vamo a pedir la cuenta ya, estoy llenísima.\" Tú: \"Pero tú ta' loca vieja, yo vi un lava cake en su IG que se veía top, hoy e' sábado, la dieta se rompe.\"",
+    quote: "Ya estás llena pero no hay nada que te detenga. There's always room for dessert.",
     description:
       "Ya estás llena pero no hay nada que te detenga. \"There's always room for dessert\" es tu catchphrase.",
   },
   {
     slug: "budget-gourmet",
     name: "Budget Gourmet",
-    quote:
-      "El coro: \"¿Dónde vamos a cenar hoy?\" Tú: \"Tengo un rest francés que acaba de abrir, es super lowkey y good prices.\"",
+    quote: "Tengo un rest francés que acaba de abrir, es super lowkey y good prices.",
     description:
       "Cuando compras algo te aseguras que estés comprando calidad a precio correspondiente. Tu propósito en la vida es comer high end al mejor precio posible.",
   },
@@ -87,6 +88,7 @@ export const QUIZ: QuizQuestion[] = [
   {
     id: "q1",
     prompt: "Llega la comida a la mesa. ¿Qué haces?",
+    photo: "mood-table",
     options: [
       { text: "Le tiro foto a to' antes de probar un bocado", archetype: "story-spammer" },
       { text: "Pruebo y ya sé si esto se convierte en mi orden de siempre", archetype: "comfort-zone" },
@@ -98,6 +100,7 @@ export const QUIZ: QuizQuestion[] = [
   {
     id: "q2",
     prompt: "El grupo no se pone de acuerdo en dónde comer. ¿Qué dices tú?",
+    photo: "mood-bar",
     options: [
       { text: "\"Vamo pa'l de siempre, ahí no fallamos\"", archetype: "comfort-zone" },
       { text: "\"Hay un sitio nuevo que abrieron esta semana, hay que ir\"", archetype: "food-plug" },
@@ -109,6 +112,7 @@ export const QUIZ: QuizQuestion[] = [
   {
     id: "q3",
     prompt: "Terminaste de comer y estás llenísim@. Llega el menú de postres.",
+    photo: "mood-dessert",
     options: [
       { text: "Ya lo habías decidido desde que te sentaste", archetype: "sweet-tooth-ceo" },
       { text: "Pides el de siempre", archetype: "comfort-zone" },
@@ -120,6 +124,7 @@ export const QUIZ: QuizQuestion[] = [
   {
     id: "q4",
     prompt: "Vas por primera vez a un restaurante nuevo. ¿Cómo decidiste venir?",
+    photo: "mood-candelabra",
     options: [
       { text: "Lo vi en el Instagram de alguien que sigo religiosamente pa' esto", archetype: "food-plug" },
       { text: "Alguien me dijo que aquí el postre es una locura", archetype: "sweet-tooth-ceo" },
@@ -131,6 +136,7 @@ export const QUIZ: QuizQuestion[] = [
   {
     id: "q5",
     prompt: "Llega la cuenta. ¿Cuál es tu primer instinto?",
+    photo: "mood-menu",
     options: [
       { text: "Reviso cada línea pa' asegurarme que valió la pena", archetype: "budget-gourmet" },
       { text: "Ya sé cuánto es, pido esto siempre", archetype: "comfort-zone" },
@@ -142,6 +148,7 @@ export const QUIZ: QuizQuestion[] = [
   {
     id: "q6",
     prompt: "Alguien te pregunta \"¿qué tú comiste ayer?\"",
+    photo: "mood-wine",
     options: [
       { text: "Le mando las quince fotos que tiré sin que pregunte más", archetype: "story-spammer" },
       { text: "\"Lo mismo de siempre\"", archetype: "comfort-zone" },

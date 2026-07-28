@@ -51,7 +51,7 @@ export default async function ResultPage({ params }: { params: Params }) {
   if (!persona) notFound();
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col overflow-y-auto bg-mesa-maroon-deep">
       <ResultCard archetype={persona} />
       <Suspense fallback={null}>
         <ResultActions slug={persona.slug} />

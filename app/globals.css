@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-mesa-maroon: #1e0000;
-  --color-mesa-maroon-deep: #280000;
-  --color-mesa-cream: #d2beaa;
-  --color-mesa-cream-light: #fcf8f1;
+  --color-mesa-maroon: #210104;
+  --color-mesa-maroon-deep: #150000;
+  --color-mesa-maroon-hover: #3a0a0d;
+  --color-mesa-cream: #ebe4d6;
   --color-mesa-gold: #c09050;
-  --color-mesa-rust: #b25a34;
+  --color-mesa-gold-hover: #d8a968;
 
   --font-sans: var(--font-jakarta);
   --font-serif: var(--font-cormorant);
+  --font-mono: var(--font-space-mono);
 }
 
 html,
@@ -19,6 +20,56 @@ body {
 
 body {
   background-color: var(--color-mesa-maroon);
+}
+
+/* Inline SVG feTurbulence noise, used as a mix-blend-mode:overlay wash over
+   every full-bleed photo treatment (title, question, result, story card). */
+.mesa-noise {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes mIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes mFadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mRise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mLogo {
+  from { opacity: 0; transform: scale(1.08); filter: blur(10px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes mZoom {
+  from { transform: scale(1.14); }
+  to { transform: scale(1); }
+}
+@keyframes mPan {
+  from { transform: scale(1.18) translate(0, 0); }
+  to { transform: scale(1.06) translate(-2%, -2%); }
+}
+@keyframes mSweep {
+  from { transform: translateX(-101%); }
+  to { transform: translateX(0); }
+}
+@keyframes mSlideL {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mSeal {
+  from { opacity: 0; transform: rotate(-24deg) scale(.6); }
+  to { opacity: 1; transform: rotate(-8deg) scale(1); }
+}
+@keyframes mEq {
+  0%, 100% { transform: scaleY(.25); }
+  50% { transform: scaleY(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
